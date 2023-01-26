@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    emailext (
+                        subject: "MADS-Video Test Results",
+                        body: "Please find the attached test logs",
+                        to: "youremail@example.com",
+                        attachmentsPattern: "**/*.log"
+                    )
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'gcloud config set project <your-project-id>'
+                sh 'gcloud app deploy app.yaml --version <version>'
+            }
+        }
+    }
+}

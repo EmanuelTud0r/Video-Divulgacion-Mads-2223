@@ -1,0 +1,15 @@
+---
+- name: Install Nginx
+  become: true
+  apt:
+    name: nginx
+    state: present
+
+- name: Start Nginx
+  become: true
+  service:
+    name: nginx
+    state: started
+    enabled: true
+
+# Execute with -> ansible-playbook -i hosts site.yml

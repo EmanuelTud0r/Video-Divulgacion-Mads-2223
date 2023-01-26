@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mads-video
+  labels:
+    app: mads-video
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: mads-video
+  template:
+    metadata:
+      labels:
+        app: mads-video
+    spec:
+      containers:
+      - name: mads-video
+        image: gcr.io/<your-project-id>/mads-video
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: "-Xmx256m -Xms256m"
